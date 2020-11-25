@@ -14,7 +14,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
  * created at 28.08.2020 20:41
  */
 @Configuration
-@ComponentScan("com.example.spring_4_demo.configuration")
+@ComponentScan("com.example.spring_4_demo")
 @EnableAspectJAutoProxy
 public class ApplicationConfiguration {
 
