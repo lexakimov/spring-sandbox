@@ -1,10 +1,14 @@
+package com.example.spring_4_demo;
+
+import com.example.spring_4_demo.configuration.AppConfiguration;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.Mockito;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static java.time.Duration.ofMillis;
@@ -15,13 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
  * @author akimov
  * created at 14.11.2020 16:26
  */
-@ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = { com.example.spring_4_demo.configuration.ApplicationConfiguration.class })
-//@SpringJUnitConfig
+@SpringJUnitConfig(AppConfiguration.class)
 public class SimpleTest {
 
 	@Test
 	void assumptions() {
+		Assertions.assertTrue(false);
 		Assumptions.assumeTrue(false);
 	}
 
@@ -147,4 +150,27 @@ public class SimpleTest {
 	}
 
 
+	@Test
+	void mockitoVerify() {
+		List mockedList = Mockito.mock(List.class);
+
+		mockedList.add("one");
+		mockedList.clear();
+
+		Mockito.verify(mockedList).add("one");
+		Mockito.verify(mockedList).clear();
+	}
+
+	@Test
+	void mockitoStubbing() {
+		LinkedList mockedList = Mockito.mock(LinkedList.class);
+
+		Mockito.when(mockedList.get(0)).thenReturn("first");
+
+		// the following prints "first"
+		System.out.println(mockedList.get(0));
+
+		// the following prints "null" because get(999) was not stubbed
+		System.out.println(mockedList.get(999));
+	}
 }

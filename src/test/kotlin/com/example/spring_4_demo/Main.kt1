@@ -1,0 +1,36 @@
+package com.example.spring_4_demo
+
+import com.example.spring_4_demo.configuration.AppConfiguration
+import org.aopalliance.intercept.MethodInterceptor
+import org.aopalliance.intercept.MethodInvocation
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
+import org.springframework.stereotype.Component
+
+/**
+@author akimov
+created at 04.01.2021 13:50
+ */
+fun main() {
+    val ctx = AnnotationConfigApplicationContext(AppConfiguration::class.java)
+    ctx.registerShutdownHook()
+
+//    ctx.getBean(MyService2Impl::class.java).doAction()
+    ctx.getBean(Person::class.java).doWork()
+    // reactive
+}
+
+@Component
+open class Person {
+    open fun doWork() {
+        println("do some work...")
+    }
+}
+
+class Delegate : MethodInterceptor {
+    override fun invoke(invocation: MethodInvocation): Any? {
+        println("before ...")
+        invocation.proceed()
+        println("after ...")
+        return null
+    }
+}

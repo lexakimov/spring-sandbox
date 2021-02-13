@@ -5,13 +5,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.example</groupId>
-	<artifactId>spring-4-demo</artifactId>
+	<artifactId>spring-sandbox</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
-		<spring.version>5.2.9.RELEASE</spring.version>
-		<spring.security.version>5.3.4.RELEASE</spring.security.version>
+		<spring.version>5.3.1</spring.version>
+		<spring.security.version>5.4.1</spring.security.version>
+		<kotlin.version>1.4.30</kotlin.version>
+		<groovy.version>3.0.4</groovy.version>
 	</properties>
 
 	<dependencies>
@@ -20,6 +22,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jcl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -33,19 +41,36 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
+			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
+			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency>-->
+		<!--
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjtools</artifactId>
+					<version>1.9.6</version>
+				</dependency>
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjrt</artifactId>
+					<version>1.9.6</version>
+				</dependency>
+				<dependency>
+					<groupId>org.aspectj</groupId>
+					<artifactId>aspectjweaver</artifactId>
+					<version>1.9.6</version>
+				</dependency>
+		-->
 
 		<!--web-->
 		<dependency>
@@ -59,61 +84,10 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!--security-->
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-	<!--	<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-client</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-jose</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-resource-server</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>-->
-
-<!--		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>0.11.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.2</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.2</version>
-			<scope>runtime</scope>
-		</dependency>-->
-
-		<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>8.19</version>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.12.1</version>
 		</dependency>
 
 
@@ -136,47 +110,33 @@
 			<version>1.2</version>
 		</dependency>
 
-		<!--	<dependency>
-			<groupId>com.microsoft.spring.data.gremlin</groupId>
-			<artifactId>spring-data-gremlin</artifactId>
-			<version>2.1.7</version>
-		</dependency>-->
-		<!--		<dependency>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjtools</artifactId>
-					<version>1.9.6</version>
-				</dependency>-->
-		<!--		<dependency>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjrt</artifactId>
-					<version>1.9.6</version>
-				</dependency>
-				<dependency>
-					<groupId>org.aspectj</groupId>
-					<artifactId>aspectjweaver</artifactId>
-					<version>1.9.6</version>
-				</dependency>-->
 
+		<!--security-->
+<!--
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
-			<scope>provided</scope>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
-
 		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy</artifactId>
-			<version>3.0.4</version>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+-->
 
+		<!--logging-->
 		<!--перенаправление вызовов commons-logging в slf4j-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.7.30</version>
 		</dependency>
-
 		<!--перенаправление вызовов slf4j в log4j2 -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -194,7 +154,7 @@
 			<version>2.13.2</version>
 		</dependency>
 
-
+		<!--testing-->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -207,6 +167,18 @@
 			<version>2.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.6.28</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.6.28</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -214,12 +186,76 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+<!--
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${spring.security.version}</version>
+			<scope>test</scope>
+		</dependency>
+-->
+
+		<!--other-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib</artifactId>
+			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>${groovy.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
 	<build>
 		<plugins>
+
 			<plugin>
+				<artifactId>kotlin-maven-plugin</artifactId>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<version>${kotlin.version}</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<sourceDir>src/test/kotlin</sourceDir>
+								<sourceDir>${project.basedir}/src/main/java</sourceDir>
+							</sourceDirs>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+						<configuration>
+							<sourceDirs>
+								<sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+								<sourceDir>${project.basedir}/src/test/java</sourceDir>
+							</sourceDirs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
@@ -227,6 +263,32 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+				<executions>
+					<!-- Замена компиляции по умолчанию -->
+					<execution>
+						<id>default-compile</id>
+						<phase>none</phase>
+					</execution>
+					<!-- Замена default-testCompile по умолчанию -->
+					<execution>
+						<id>default-testCompile</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>java-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>java-test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -235,7 +297,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.example.spring_4_demo.Main</mainClass>
+							<mainClass>com.example.spring_4_demo.SpringApplication</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
@@ -259,6 +321,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
+
 </project>

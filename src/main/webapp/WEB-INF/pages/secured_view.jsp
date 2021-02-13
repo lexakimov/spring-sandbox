@@ -9,8 +9,15 @@
 <html>
 <head>
     <title>View</title>
+
 </head>
 <body>
-This is a secured view!
+This is a secured view!<br>
+<pre>
+    <%= request.getUserPrincipal().toString()
+            .substring(88)
+            .replaceAll("; ", "\n\r") %>
+</pre>
+
 </body>
 </html>

@@ -1,0 +1,31 @@
+package com.example.spring_4_demo;
+
+import lombok.val;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+/**
+ * @author akimov
+ * created at 05.12.2020 12:25
+ */
+@Configuration
+public class TestConfig {
+
+	public static final String U_1 = "user_1";
+	public static final String U_2 = "user_2";
+
+	@Bean("testUserDetailsService")
+	public UserDetailsService userDetailsService() {
+		val user1 = User.builder().username(U_1).password("p").roles("ADMIN").build();
+		val user2 = User.builder().username(U_2).password("p").roles("USER").build();
+
+		val manager = new InMemoryUserDetailsManager();
+		manager.createUser(user1);
+		manager.createUser(user2);
+
+		return manager;
+	}
+}

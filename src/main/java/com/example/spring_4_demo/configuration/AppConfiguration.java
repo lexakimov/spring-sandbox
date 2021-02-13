@@ -4,9 +4,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 
 /**
@@ -15,8 +17,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
  */
 @Configuration
 @ComponentScan("com.example.spring_4_demo")
-@EnableAspectJAutoProxy
-public class ApplicationConfiguration {
+public class AppConfiguration {
 
 	@Bean
 	public MessageSource messageSource() {
@@ -32,5 +33,14 @@ public class ApplicationConfiguration {
 	public MessageSourceAccessor messageSourceAccessor() {
 		return new MessageSourceAccessor(messageSource());
 	}
-
+	
+	
+	@Bean(name = "applicationEventMulticaster")
+	public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+		SimpleApplicationEventMulticaster eventMulticaster =
+				new SimpleApplicationEventMulticaster();
+		
+		eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+		return eventMulticaster;
+	}
 }

@@ -1,0 +1,45 @@
+package com.example.spring_4_demo;
+
+import com.example.spring_4_demo.configuration.AppConfiguration;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+
+import static com.example.spring_4_demo.TestConfig.U_1;
+
+/**
+ * @author akimov
+ * created at 28.11.2020 10:26
+ */
+@Slf4j
+@SpringJUnitWebConfig({AppConfiguration.class, TestConfig.class})
+public class SecurityTest {
+	
+	@Test
+	@WithAnonymousUser
+	public void test1() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info(String.valueOf(context));
+	}
+	
+	@Test
+	@WithUserDetails(value = U_1, userDetailsServiceBeanName = "testUserDetailsService")
+	public void test2() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info(String.valueOf(context));
+	}
+	
+	@Test
+	@WithMockUser(username = "ass")
+	public void test3() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		log.info(String.valueOf(context));
+	}
+	
+	
+}

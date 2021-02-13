@@ -1,13 +1,12 @@
 package com.example.spring_4_demo.web;
 
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import com.example.spring_4_demo.configuration.WebAppConfiguration;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.filter.ServletContextRequestLoggingFilter;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.Filter;
 
 /**
  * It replacement of web.xml
@@ -15,19 +14,34 @@ import javax.servlet.ServletRegistration;
  * @author akimov
  * created at 25.11.2020 19:57
  */
-public class WebApplicationInitializer implements org.springframework.web.WebApplicationInitializer {
-
+public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+	
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-
-		root.scan("com.example.spring_4_demo.configuration");
-		servletContext.addListener(new ContextLoaderListener(root));
-
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
-		ServletRegistration.Dynamic appServlet = servletContext.addServlet("mvc", dispatcherServlet);
-		appServlet.setLoadOnStartup(1);
-		appServlet.addMapping("/");
+	protected Class<?>[] getRootConfigClasses() {
+		return null;
+	}
+	
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[]{WebAppConfiguration.class};
+	}
+	
+	@Override
+	protected String[] getServletMappings() {
+		return new String[]{"/"};
+	}
+	
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		
+		return new Filter[]{
+				characterEncodingFilter,
+				new ServletContextRequestLoggingFilter(),
+				new CommonsRequestLoggingFilter()
+		};
+		
 	}
 }
